@@ -11,6 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class manages AlbertaCovid19Case data.
+ *
+ * @author Sam Wu
+ * @version 2022.01.19
+ */
 public class AlbertaCovid19CaseManager {
 
     private static AlbertaCovid19CaseManager instance;
@@ -33,10 +39,6 @@ public class AlbertaCovid19CaseManager {
 
     @Getter
     private List<AlbertaCovid19Case> albertaCovid19CaseList;
-
-//    public AlbertaCovid19CaseManager() throws IOException {
-//        albertaCovid19CaseList = loadCsvData();
-//    }
 
     private List<AlbertaCovid19Case> loadCsvData() throws IOException {
        List<AlbertaCovid19Case> dataList = new ArrayList<>();
@@ -76,6 +78,8 @@ public class AlbertaCovid19CaseManager {
                dataList.add(lineData);
             }
         }
+        AlbertaCovid19Case lineData = new AlbertaCovid19Case();
+        dataList.add(lineData);
         return dataList;
     }
 
