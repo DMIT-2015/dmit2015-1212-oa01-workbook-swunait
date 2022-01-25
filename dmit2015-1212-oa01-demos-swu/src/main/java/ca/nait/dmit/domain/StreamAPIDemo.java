@@ -96,7 +96,8 @@ public class StreamAPIDemo {
 		System.out.println("All Nintendo games on sale");
 		games.stream()
 			.filter(item -> item.getPlatform().equalsIgnoreCase("Nintendo"))
-			.forEach(System.out::println);
+//			.forEach(System.out::println);
+			.forEach(item -> System.out.println(item));
 		
 		// Display the title of each game
 		System.out.println("Game titles on sale");
@@ -114,12 +115,14 @@ public class StreamAPIDemo {
 		// Display video games sorted by Platform then by Title then descending by price
 		System.out.println("Game Platform");
 		games.stream()
-				.sorted(Comparator.comparing(VideoGame::getPlatform).thenComparing(VideoGame::getTitle).thenComparing(VideoGame::getPrice).reversed())
+				.sorted(Comparator.comparing(VideoGame::getPlatform)
+						.thenComparing(VideoGame::getTitle)
+						.thenComparing(VideoGame::getPrice).reversed())
 				.forEach(System.out::println);
 
 		// Find any game on sale
 		Optional<VideoGame> anyGame = games.stream().findAny();
-		if (!anyGame.isEmpty()) {
+		if (anyGame.isPresent()) {
 			System.out.println("Any game: " + anyGame.get());
 		} else {
 			System.out.println("No games on sale.");
@@ -129,7 +132,7 @@ public class StreamAPIDemo {
 		Optional<VideoGame> firstGame = games.stream()
 			.filter(item -> item.getPlatform().equalsIgnoreCase("Xbox"))
 			.findFirst();
-		if (!firstGame.isEmpty()) {
+		if (firstGame.isPresent()) {
 			System.out.println("First Xbox game: " + firstGame.get());
 		} else {
 			System.out.println("No XBox games on sale.");

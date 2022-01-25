@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,9 +43,19 @@ class AlbertaCovid19CaseManagerTest {
     }
 
     @Test
-    @DisplayName("ActiveCasesAgeGroup")
-    void activeCasesAgeGroup() {
-        
+    @DisplayName("Find By Id")
+    void findById() {
+        Optional<AlbertaCovid19Case> optionalResult = caseManager.findById(1);
+        assertTrue(optionalResult.isPresent());
+        AlbertaCovid19Case result = optionalResult.get();
+        assertEquals(1, result.getId());
+        assertEquals("Edmonton Zone", result.getAhsZone());
+        assertEquals("Recovered", result.getCaseStatus());
+        assertEquals("Confirmed",result.getCaseType());
+        assertEquals("30-39 years", result.getAgeGroup());
+
+        Optional<AlbertaCovid19Case> noOptionalResult = caseManager.findById(-1);
+        assertTrue(noOptionalResult.isEmpty());
     }
 
 }

@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -81,6 +82,13 @@ public class AlbertaCovid19CaseManager {
         AlbertaCovid19Case lineData = new AlbertaCovid19Case();
         dataList.add(lineData);
         return dataList;
+    }
+
+    public Optional<AlbertaCovid19Case> findById(int id) {
+        return albertaCovid19CaseList
+                .stream()
+                .filter(item -> item.getId() == id)
+                .findFirst();
     }
 
     public long countTotalActiveCases() {
