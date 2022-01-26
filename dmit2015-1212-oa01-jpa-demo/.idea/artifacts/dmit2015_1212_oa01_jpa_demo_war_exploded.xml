@@ -29,15 +29,33 @@
           <element id="library" level="project" name="Maven: javax.xml.bind:jaxb-api:2.3.1" />
           <element id="library" level="project" name="Maven: org.geolatte:geolatte-geom:1.8.2" />
           <element id="library" level="project" name="Maven: org.locationtech.jts:jts-core:1.18.2" />
-          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.6.1" />
           <element id="library" level="project" name="Maven: org.postgresql:postgresql:42.2.16" />
           <element id="library" level="project" name="Maven: org.checkerframework:checker-qual:3.5.0" />
-          <element id="library" level="project" name="Maven: com.h2database:h2:2.1.210" />
+          <element id="library" level="project" name="Maven: org.hsqldb:hsqldb:2.6.1" />
           <element id="library" level="project" name="Maven: org.glassfish.jaxb:jaxb-runtime:3.0.2" />
           <element id="library" level="project" name="Maven: com.sun.activation:jakarta.activation:2.0.1" />
           <element id="library" level="project" name="Maven: org.glassfish.jaxb:jaxb-core:3.0.2" />
           <element id="library" level="project" name="Maven: org.glassfish.jaxb:txw2:3.0.2" />
           <element id="library" level="project" name="Maven: com.sun.istack:istack-commons-runtime:4.0.1" />
+          <element id="library" level="project" name="Maven: org.jboss.arquillian.test:arquillian-test-api:1.7.0.Alpha10" />
+          <element id="library" level="project" name="Maven: org.jboss.arquillian.test:arquillian-test-spi:1.7.0.Alpha10" />
+          <element id="library" level="project" name="Maven: org.jboss.arquillian.core:arquillian-core-spi:1.7.0.Alpha10" />
+          <element id="library" level="project" name="Maven: org.jboss.arquillian.container:arquillian-container-test-api:1.7.0.Alpha10" />
+          <element id="library" level="project" name="Maven: org.jboss.shrinkwrap:shrinkwrap-api:1.2.6" />
+          <element id="library" level="project" name="Maven: org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-api-base:2.0.0" />
+          <element id="library" level="project" name="Maven: org.jboss.arquillian.container:arquillian-container-test-spi:1.7.0.Alpha10" />
+          <element id="library" level="project" name="Maven: org.jboss.arquillian.config:arquillian-config-api:1.7.0.Alpha10" />
+          <element id="library" level="project" name="Maven: org.jboss.arquillian.config:arquillian-config-impl-base:1.7.0.Alpha10" />
+          <element id="library" level="project" name="Maven: org.jboss.arquillian.config:arquillian-config-spi:1.7.0.Alpha10" />
+          <element id="library" level="project" name="Maven: org.jboss.arquillian.container:arquillian-container-spi:1.7.0.Alpha10" />
+          <element id="library" level="project" name="Maven: org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-spi:2.0.0" />
+          <element id="library" level="project" name="Maven: org.jboss.arquillian.core:arquillian-core-api:1.7.0.Alpha10" />
+          <element id="library" level="project" name="Maven: org.jboss.arquillian.extension:arquillian-transaction-jta:1.0.5" />
+          <element id="library" level="project" name="Maven: org.jboss.arquillian.extension:arquillian-transaction-api:1.0.5" />
+          <element id="library" level="project" name="Maven: org.jboss.arquillian.extension:arquillian-transaction-spi:1.0.5" />
+          <element id="library" level="project" name="Maven: org.jboss.arquillian.extension:arquillian-transaction-impl-base:1.0.5" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-simple:1.7.33" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.33" />
         </element>
       </element>
       <element id="directory" name="META-INF">

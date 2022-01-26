@@ -14,7 +14,7 @@ import dmit2015.entity.Movie;
 @Transactional
 public class MovieRepository {
 
-    @PersistenceContext(unitName = "h2database-jpa-pu")
+    @PersistenceContext(unitName = "hsqldatabase-jpa-pu")
     private EntityManager em;
 
     public void add(Movie newMovie) {
