@@ -106,8 +106,8 @@ public class MovieRepositoryIT {
         assertEquals(currentMovie.getReleaseDate(), existingMovie.getReleaseDate());
         long createdDateTimeDifference = currentMovie.getCreatedDateTime().until(existingMovie.getCreatedDateTime(), ChronoUnit.MINUTES);
         assertEquals(0, createdDateTimeDifference);
-        long lastModifedDateTimeDifferce = currentMovie.getLastModifiedDateTime().until(existingMovie.getLastModifiedDateTime(), ChronoUnit.MINUTES);
-        assertEquals(0, lastModifedDateTimeDifferce);
+        long lastModifiedDateTimeDifference = currentMovie.getLastModifiedDateTime().until(existingMovie.getLastModifiedDateTime(), ChronoUnit.MINUTES);
+        assertEquals(0, lastModifiedDateTimeDifference);
     }
 
     @Order(1)
@@ -155,8 +155,8 @@ public class MovieRepositoryIT {
         assertEquals(currentMovie.getReleaseDate(), updatedMovie.getReleaseDate());
         long createdDateTimeDifference = currentMovie.getCreatedDateTime().until(updatedMovie.getCreatedDateTime(), ChronoUnit.MINUTES);
         assertEquals(0, createdDateTimeDifference);
-        long lastModifedDateTimeDifferce = currentMovie.getLastModifiedDateTime().until(updatedMovie.getLastModifiedDateTime(), ChronoUnit.MINUTES);
-        assertEquals(0, lastModifedDateTimeDifferce);
+        long lastModifiedDateTimeDifference = currentMovie.getLastModifiedDateTime().until(updatedMovie.getLastModifiedDateTime(), ChronoUnit.MINUTES);
+        assertEquals(0, lastModifiedDateTimeDifference);
     }
 
     @Order(5)

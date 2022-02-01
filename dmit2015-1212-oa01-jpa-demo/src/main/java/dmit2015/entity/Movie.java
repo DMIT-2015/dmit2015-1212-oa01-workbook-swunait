@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 
 /**
  * The persistent class for the movies database table.
+ *
+ * Example taken from https://docs.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/validation?view=aspnetcore-6.0&tabs=visual-studio#validation-1
  */
 @Getter
 @Setter
