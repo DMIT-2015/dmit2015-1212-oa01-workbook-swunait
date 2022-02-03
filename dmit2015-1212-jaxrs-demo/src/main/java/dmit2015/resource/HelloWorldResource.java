@@ -18,6 +18,8 @@ import java.net.URI;
  *  curl -k -i -X GET http://localhost:8080/dmit2015-1212-jaxrs-demo/webapi/helloworld -H 'Accept: text/html'
  *  curl -k -i -X GET http://localhost:8080/dmit2015-1212-jaxrs-demo/webapi/helloworld -H 'Accept: application/json'
  *
+ * curl -k -i -X GET http://localhost:8080/dmit2015-1212-jaxrs-de
+ * mo/webapi/helloworld/image
  */
 @RequestScoped
 @Path("/helloworld")
@@ -54,10 +56,10 @@ public class HelloWorldResource {
 //                .header("Content-Disposition","attachment; filename=hello_world.png")
 //                .build();
 
-        File imageFile = new File("/home/user2015/Pictures/hello_world.png");
+        File imageFile = new File("/home/user2015/Pictures/world.png");
         return Response
                 .ok(imageFile)
-                .header("Content-Disposition","attachment; filename=hello_world.png")
+                .header("Content-Disposition","attachment; filename=world.png")
                 .build();
     }
 }
