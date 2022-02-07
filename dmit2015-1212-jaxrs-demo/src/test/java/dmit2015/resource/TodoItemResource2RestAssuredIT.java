@@ -1,5 +1,3 @@
-
-
 package dmit2015.resource;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TodoItemResource2RestAssuredIT {
 
+    String todoResourceUrl = "http://localhost:8080/dmit2015-1212-jaxrs-demo/webapi/TodoItems";
     String testDataResourceLocation;
 
     @Order(1)
@@ -35,7 +34,7 @@ class TodoItemResource2RestAssuredIT {
         Response response = given()
 //                .accept(ContentType.JSON)
                 .when()
-                .get("/dmit2015-1212-jaxrs-demo/webapi/TodoItems")
+                .get(todoResourceUrl)
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
@@ -71,7 +70,7 @@ class TodoItemResource2RestAssuredIT {
                 .contentType(ContentType.JSON)
                 .body(jsonBody)
                 .when()
-                .post("/dmit2015-1212-jaxrs-demo/webapi/TodoItems")
+                .post(todoResourceUrl)
                 .then()
                 .statusCode(201)
                 .extract()
@@ -123,7 +122,6 @@ class TodoItemResource2RestAssuredIT {
         existingTodoItem.setName("Updated Name");
         existingTodoItem.setComplete(true);
 
-//        String jsonRequestBody = mapper.writeValueAsString(existingTodoItem);
         String jsonRequestBody = jsonb.toJson(existingTodoItem);
         given()
                 .contentType(ContentType.JSON)
