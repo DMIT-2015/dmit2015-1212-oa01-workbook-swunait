@@ -28,12 +28,12 @@ import jakarta.annotation.sql.DataSourceDefinitions;
 //		user="user2015",
 //		password="Password2015"),
 
-//	@DataSourceDefinition(
-//	 	name="java:app/datasources/oracleUser2015DS",
-//	 	className="oracle.jdbc.pool.OracleDataSource",
-//	 	url="jdbc:oracle:thin:@localhost:1521/xepdb1",
-//	 	user="user2015",
-//	 	password="Password2015"),
+	@DataSourceDefinition(
+	 	name="java:app/datasources/oracleUser2015DS",
+	 	className="oracle.jdbc.pool.OracleDataSource",
+	 	url="jdbc:oracle:thin:@localhost:1521/xepdb1",
+	 	user="user2015",
+	 	password="Password2015"),
 
 //	@DataSourceDefinition(
 //		name="java:app/datasources/mysqlDS",

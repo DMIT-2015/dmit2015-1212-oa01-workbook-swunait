@@ -32,6 +32,7 @@
           <element id="library" level="project" name="Maven: org.postgresql:postgresql:42.2.16" />
           <element id="library" level="project" name="Maven: org.checkerframework:checker-qual:3.5.0" />
           <element id="library" level="project" name="Maven: org.hsqldb:hsqldb:2.6.1" />
+          <element id="library" level="project" name="Maven: com.oracle.database.jdbc:ojdbc11:21.4.0.0.1" />
           <element id="library" level="project" name="Maven: org.glassfish.jaxb:jaxb-runtime:3.0.2" />
           <element id="library" level="project" name="Maven: com.sun.activation:jakarta.activation:2.0.1" />
           <element id="library" level="project" name="Maven: org.glassfish.jaxb:jaxb-core:3.0.2" />

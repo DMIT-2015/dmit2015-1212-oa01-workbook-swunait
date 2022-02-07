@@ -55,7 +55,7 @@
                 <property name="jakarta.persistence.schema-generation.database.action" value="none"/>
             </properties>
         </persistence-unit>
-
+    -->
         <persistence-unit name="oracle-jpa-pu" transaction-type="JTA">
             <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
              <jta-data-source>java:app/datasources/oracleUser2015DS</jta-data-source>
@@ -65,7 +65,7 @@
                  <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
              </properties>
          </persistence-unit>
-    -->
+
 
 </persistence>
 
