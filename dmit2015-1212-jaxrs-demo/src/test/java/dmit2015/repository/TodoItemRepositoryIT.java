@@ -55,9 +55,9 @@ class TodoItemRepositoryIT {
         currentTodoItem = new TodoItem();
         currentTodoItem.setName("Create Arquillian IT");
         currentTodoItem.setComplete(true);
-        _todoRepository.add(currentTodoItem);
+        _todoRepository.create(currentTodoItem);
 
-        Optional<TodoItem> optionalTodoItem = _todoRepository.findById(currentTodoItem.getId());
+        Optional<TodoItem> optionalTodoItem = _todoRepository.findOptional(currentTodoItem.getId());
         assertTrue(optionalTodoItem.isPresent());
         TodoItem existingTodoItem = optionalTodoItem.get();
         assertNotNull(existingTodoItem);
@@ -70,7 +70,7 @@ class TodoItemRepositoryIT {
     @Test
     void shouldFindOne() {
         final Long todoId = currentTodoItem.getId();
-        Optional<TodoItem> optionalTodoItem = _todoRepository.findById(todoId);
+        Optional<TodoItem> optionalTodoItem = _todoRepository.findOptional(todoId);
         assertTrue(optionalTodoItem.isPresent());
         TodoItem existingTodoItem = optionalTodoItem.get();
         assertNotNull(existingTodoItem);
@@ -82,7 +82,7 @@ class TodoItemRepositoryIT {
     @Order(1)
     @Test
     void shouldFindAll() {
-        List<TodoItem> queryResultList = _todoRepository.findAll();
+        List<TodoItem> queryResultList = _todoRepository.list();
         assertEquals(3, queryResultList.size());
 
         TodoItem firstTodoItem = queryResultList.get(0);
@@ -101,7 +101,7 @@ class TodoItemRepositoryIT {
         currentTodoItem.setComplete(false);
         _todoRepository.update(currentTodoItem);
 
-        Optional<TodoItem> optionalUpdatedTodoItem = _todoRepository.findById(currentTodoItem.getId());
+        Optional<TodoItem> optionalUpdatedTodoItem = _todoRepository.findOptional(currentTodoItem.getId());
         assertTrue(optionalUpdatedTodoItem.isPresent());
         TodoItem updatedTodoItem = optionalUpdatedTodoItem.get();
         assertNotNull(updatedTodoItem);
@@ -114,12 +114,12 @@ class TodoItemRepositoryIT {
     @Test
     void shouldDelete() {
         final Long todoId = currentTodoItem.getId();
-        Optional<TodoItem> optionalTodoItem = _todoRepository.findById(todoId);
+        Optional<TodoItem> optionalTodoItem = _todoRepository.findOptional(todoId);
         assertTrue(optionalTodoItem.isPresent());
         TodoItem existingTodoItem = optionalTodoItem.get();
         assertNotNull(existingTodoItem);
         _todoRepository.remove(existingTodoItem.getId());
-        optionalTodoItem = _todoRepository.findById(todoId);
+        optionalTodoItem = _todoRepository.findOptional(todoId);
         assertTrue(optionalTodoItem.isEmpty());
     }
 }

@@ -72,7 +72,7 @@ public class TodoItemResource {
         }
 
         try {
-            todoItemRepository.add(newTodoItem);
+            todoItemRepository.create(newTodoItem);
         } catch (Exception ex) {
             ex.printStackTrace();
             return Response
@@ -88,7 +88,7 @@ public class TodoItemResource {
     @GET    // GET: /webapi/TodoItems/5
     @Path("{id}")
     public Response getTodoItem(@PathParam("id") Long id) {
-        Optional<TodoItem> optionalTodoItem = todoItemRepository.findById(id);
+        Optional<TodoItem> optionalTodoItem = todoItemRepository.findOptional(id);
 
         if (optionalTodoItem.isEmpty()) {
             throw new NotFoundException();
@@ -100,7 +100,7 @@ public class TodoItemResource {
 
     @GET    // GET: /webapi/TodoItems
     public Response getTodoItems() {
-        return Response.ok(todoItemRepository.findAll()).build();
+        return Response.ok(todoItemRepository.list()).build();
     }
 
     @PUT    // PUT: /webapi/TodoItems/5
@@ -110,7 +110,7 @@ public class TodoItemResource {
             throw new BadRequestException();
         }
 
-        Optional<TodoItem> optionalTodoItem = todoItemRepository.findById(id);
+        Optional<TodoItem> optionalTodoItem = todoItemRepository.findOptional(id);
 
         if (optionalTodoItem.isEmpty()) {
             throw new NotFoundException();
@@ -123,7 +123,7 @@ public class TodoItemResource {
     @DELETE // DELETE: /webapi/TodoItems/5
     @Path("{id}")
     public Response deleteTodoItem(@PathParam("id") Long id) {
-        Optional<TodoItem> optionalTodoItem = todoItemRepository.findById(id);
+        Optional<TodoItem> optionalTodoItem = todoItemRepository.findOptional(id);
 
         if (optionalTodoItem.isEmpty()) {
             throw new NotFoundException();

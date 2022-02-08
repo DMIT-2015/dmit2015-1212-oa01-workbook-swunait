@@ -1,16 +1,16 @@
 package dmit2015.repository;
 
 import common.jpa.AbstractJpaRepository;
-import dmit2015.entity.TodoItem;
+import dmit2015.entity.Movie;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 @Transactional
-public class TodoItemRepository extends AbstractJpaRepository<TodoItem, Long> {
+public class MovieRepository extends AbstractJpaRepository<Movie, Long> {
 
-    public TodoItemRepository() {
-        super(TodoItem.class);
+    public MovieRepository() {
+        super(Movie.class);
     }
 
 }
