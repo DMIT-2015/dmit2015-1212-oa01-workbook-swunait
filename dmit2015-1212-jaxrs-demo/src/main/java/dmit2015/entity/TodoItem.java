@@ -24,8 +24,8 @@ public class TodoItem implements Serializable {
 
     private boolean complete;
 
-//    @Version
-//    private Integer version;
+    @Version
+    private Integer version;
 
     public TodoItem(Long id, String name, boolean complete) {
         this.id = id;

@@ -1,13 +1,14 @@
 package dmit2015.resource;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dmit2015.entity.TodoItem;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
 import org.junit.jupiter.api.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -17,21 +18,23 @@ import static org.junit.jupiter.api.Assertions.*;
  * https://github.com/rest-assured/rest-assured
  * https://github.com/rest-assured/rest-assured/wiki/Usage
  * http://www.mastertheboss.com/jboss-frameworks/resteasy/restassured-tutorial
+ * https://eclipse-ee4j.github.io/jsonb-api/docs/user-guide.html
  * https://github.com/FasterXML/jackson-databind
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TodoItemResourceRestAssuredIT {
+class TodoItemResourceRestAssuredUsingJsonbIT {
 
+    String todoResourceUrl = "http://localhost:8080/dmit2015-1212-jaxrs-demo/webapi/TodoItems";
     String testDataResourceLocation;
 
     @Order(1)
     @Test
     void shouldListAll() throws JsonProcessingException {
         Response response = given()
-                .accept(ContentType.JSON)
+//                .accept(ContentType.JSON)
                 .when()
-                .get("/dmit2015-1212-jaxrs-demo/webapi/TodoItems")
+                .get(todoResourceUrl)
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
@@ -39,9 +42,9 @@ class TodoItemResourceRestAssuredIT {
                 .response();
         String jsonBody = response.getBody().asString();
 
-        // Create a new Jsonb instance using the default JsonbBuilder implementation
-        ObjectMapper mapper = new ObjectMapper();
-        List<TodoItem> todos = mapper.readValue(jsonBody, new TypeReference<List<TodoItem>>() { });
+        Jsonb jsonb = JsonbBuilder.create();
+        List<TodoItem> todos = jsonb.fromJson(jsonBody, new ArrayList<TodoItem>(){}.getClass().getGenericSuperclass());
+
         assertEquals(3, todos.size());
         TodoItem firstTodoItem = todos.get(0);
         assertEquals("Todo 1", firstTodoItem.getName());
@@ -60,15 +63,14 @@ class TodoItemResourceRestAssuredIT {
         newTodoItem.setName("Create REST Assured Integration Test");
         newTodoItem.setComplete(false);
 
-        // Create a new Jsonb instance using the default JsonbBuilder implementation
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonBody = mapper.writeValueAsString(newTodoItem);
+        Jsonb jsonb = JsonbBuilder.create();
+        String jsonBody = jsonb.toJson(newTodoItem);
 
         Response response = given()
                 .contentType(ContentType.JSON)
                 .body(jsonBody)
                 .when()
-                .post("/dmit2015-1212-jaxrs-demo/webapi/TodoItems")
+                .post(todoResourceUrl)
                 .then()
                 .statusCode(201)
                 .extract()
@@ -89,9 +91,9 @@ class TodoItemResourceRestAssuredIT {
                 .extract()
                 .response();
         String jsonBody = response.getBody().asString();
-        // Create a new Jsonb instance using the default JsonbBuilder implementation
-        ObjectMapper mapper = new ObjectMapper();
-        TodoItem existingTodoItem = mapper.readValue(jsonBody, TodoItem.class);
+
+        Jsonb jsonb = JsonbBuilder.create();
+        TodoItem existingTodoItem = jsonb.fromJson(jsonBody, TodoItem.class);
 
         assertNotNull(existingTodoItem);
         assertEquals("Create REST Assured Integration Test", existingTodoItem.getName());
@@ -101,6 +103,7 @@ class TodoItemResourceRestAssuredIT {
     @Order(4)
     @Test
     void shouldUpdate() throws JsonProcessingException {
+        // Fetch the test data record that was created in shouldCreate method
         Response response = given()
                 .accept(ContentType.JSON)
                 .when()
@@ -110,14 +113,21 @@ class TodoItemResourceRestAssuredIT {
                 .contentType(ContentType.JSON)
                 .extract()
                 .response();
+
         String jsonBody = response.getBody().asString();
-        ObjectMapper mapper = new ObjectMapper();
-        TodoItem existingTodoItem = mapper.readValue(jsonBody, TodoItem.class);
+        // Use Jakarta JSON Binding to convert a Java object to a JSON string
+        Jsonb jsonb = JsonbBuilder.create();
+        // Convert the response body JSON string to a TodoItem object
+        TodoItem existingTodoItem = jsonb.fromJson(jsonBody, TodoItem.class);
+
+        // Update the name and complete flag
         assertNotNull(existingTodoItem);
-        existingTodoItem.setName("Updated Name");
+        existingTodoItem.setName("REST Assured updated data");
         existingTodoItem.setComplete(true);
 
-        String jsonRequestBody = mapper.writeValueAsString(existingTodoItem);
+        // Convert the TodoItem object to a JSON string
+        String jsonRequestBody = jsonb.toJson(existingTodoItem);
+        // Update the resource should return a status of 200
         given()
                 .contentType(ContentType.JSON)
                 .body(jsonRequestBody)
@@ -125,12 +135,40 @@ class TodoItemResourceRestAssuredIT {
                 .put(testDataResourceLocation)
                 .then()
                 .statusCode(200);
+
+        // Verify that record has been updated
+        String responseData = given()
+                .accept(ContentType.JSON)
+                .when()
+                .get(testDataResourceLocation)
+                .asString();
+        // Convert the JSON string to a TodoItem object
+        TodoItem updatedTodoItem = jsonb.fromJson(responseData, TodoItem.class);
+        // Verify the value of the id has not changed and the name and complete property values has changed
+        assertEquals(existingTodoItem.getId(), updatedTodoItem.getId());
+        assertEquals("REST Assured updated data", updatedTodoItem.getName());
+        assertEquals(true, updatedTodoItem.isComplete());
+
+        // Try updating the same resource again and it should now return a status of 400
+        // since we are no longer updating the resource using the latest version of the data
+        existingTodoItem.setName("Updated name again should fail");
+        existingTodoItem.setComplete(false);
+        jsonRequestBody = jsonb.toJson(existingTodoItem);
+        given()
+                .contentType(ContentType.JSON)
+                .body(jsonRequestBody)
+                .when()
+                .put(testDataResourceLocation)
+                .then()
+                .statusCode(400);
+
     }
 
     @Order(5)
     @Test
     void shouldDelete() {
         given()
+                .contentType(ContentType.JSON)
                 .when()
                 .delete(testDataResourceLocation)
                 .then()
@@ -138,3 +176,4 @@ class TodoItemResourceRestAssuredIT {
     }
 
 }
+

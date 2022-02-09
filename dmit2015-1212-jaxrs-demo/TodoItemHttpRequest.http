@@ -17,7 +17,26 @@ GET http://localhost:8080/dmit2015-1212-jaxrs-demo/webapi/TodoItems/4
 PUT http://localhost:8080/dmit2015-1212-jaxrs-demo/webapi/TodoItems/2
 Content-Type: application/json
 
-{"id":2, "name":"Update TodoItem 2", "complete":true}
+{
+  "id": 2,
+  "name": "Updated TodoItem 2",
+  "complete": true,
+  "version": 0
+}
+
+### Update TodoItem with an id of 4 and change name and complete properties.
+PUT http://localhost:8080/dmit2015-1212-jaxrs-demo/webapi/TodoItems/4
+Content-Type: application/json
+
+{
+  "id":4,
+  "name":"Start assignment 2",
+  "complete":false,
+  "version":0
+}
 
 ### Delete an TodoItem with an id of 2
 DELETE http://localhost:8080/dmit2015-1212-jaxrs-demo/webapi/TodoItems/2
+
+### Delete an TodoItem with an id of 4
+DELETE http://localhost:8080/dmit2015-1212-jaxrs-demo/webapi/TodoItems/4

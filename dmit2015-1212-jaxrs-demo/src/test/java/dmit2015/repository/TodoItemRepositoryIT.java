@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(ArquillianExtension.class)                  // Run with JUnit 5 instead of JUnit 4
-class TodoItemRepositoryIT {
+public class TodoItemRepositoryIT {
 
     @Inject
     private TodoItemRepository _todoRepository;

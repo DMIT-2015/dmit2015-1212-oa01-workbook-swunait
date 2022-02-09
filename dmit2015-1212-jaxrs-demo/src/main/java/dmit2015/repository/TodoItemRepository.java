@@ -15,15 +15,15 @@ public class TodoItemRepository extends AbstractJpaRepository<TodoItem, Long> {
         super(TodoItem.class);
     }
 
-    public void update(TodoItem updatedTodoItem) {
-        Optional<TodoItem> optionalTodoItem = findOptional(updatedTodoItem.getId());
-        if (optionalTodoItem.isPresent()) {
-            TodoItem existingTodoItem = optionalTodoItem.get();
-            existingTodoItem.setName(updatedTodoItem.getName());
-            existingTodoItem.setComplete(updatedTodoItem.isComplete());
-            super.update(existingTodoItem);
-        }
-    }
+//    public void update(TodoItem updatedTodoItem) {
+//        Optional<TodoItem> optionalTodoItem = findOptional(updatedTodoItem.getId());
+//        if (optionalTodoItem.isPresent()) {
+//            TodoItem existingTodoItem = optionalTodoItem.get();
+//            existingTodoItem.setName(updatedTodoItem.getName());
+//            existingTodoItem.setComplete(updatedTodoItem.isComplete());
+//            super.update(existingTodoItem);
+//        }
+//    }
 
 }
 
