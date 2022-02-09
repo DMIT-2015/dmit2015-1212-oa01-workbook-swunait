@@ -35,7 +35,7 @@
           <element id="library" level="project" name="Maven: org.antlr:antlr4-runtime:4.9.1" />
           <element id="library" level="project" name="Maven: com.h2database:h2:2.1.210" />
           <element id="library" level="project" name="Maven: org.hsqldb:hsqldb:2.6.1" />
-          <element id="library" level="project" name="Maven: com.microsoft.sqlserver:mssql-jdbc:10.2.0.jre17" />
+          <element id="library" level="project" name="Maven: com.microsoft.sqlserver:mssql-jdbc:9.4.1.jre11" />
           <element id="library" level="project" name="Maven: com.oracle.database.jdbc:ojdbc11:21.5.0.0" />
           <element id="library" level="project" name="Maven: org.postgresql:postgresql:42.3.1" />
           <element id="library" level="project" name="Maven: org.checkerframework:checker-qual:3.5.0" />

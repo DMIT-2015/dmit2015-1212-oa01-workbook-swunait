@@ -1,0 +1,23 @@
+### Get all TodoItems
+GET http://localhost:8080/dmit2015-1212-jaxrs-demo/webapi/TodoItemDtos
+
+### Get a single TodoItem with an id of 1
+GET http://localhost:8080/dmit2015-1212-jaxrs-demo/webapi/TodoItemDtos/1
+
+### POST a new TodoItem
+POST http://localhost:8080//dmit2015-1212-jaxrs-demo/webapi/TodoItemDtos
+Content-Type: application/json
+
+{"name":"Finish DMIT2015 Assignment 2", "complete":false}
+
+### Get a single TodoItem with an id of 4
+GET http://localhost:8080/dmit2015-1212-jaxrs-demo/webapi/TodoItemDtos/4
+
+### Update TodoItem with an id of 2 and change name and complete properties.
+PUT http://localhost:8080/dmit2015-1212-jaxrs-demo/webapi/TodoItemDtos/2
+Content-Type: application/json
+
+{"todoitemId":2, "name":"Update TodoItem 2", "complete":true}
+
+### Delete an TodoItem with an id of 2
+DELETE http://localhost:8080/dmit2015-1212-jaxrs-demo/webapi/TodoItemDtos/2

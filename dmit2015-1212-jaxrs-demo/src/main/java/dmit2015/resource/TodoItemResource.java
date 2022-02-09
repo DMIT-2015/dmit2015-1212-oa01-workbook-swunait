@@ -115,8 +115,14 @@ public class TodoItemResource {
         if (optionalTodoItem.isEmpty()) {
             throw new NotFoundException();
         }
-        todoItemRepository.update(updatedTodoItem);
-
+        try {
+            todoItemRepository.update(updatedTodoItem);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.serverError()
+                    .entity(e.getMessage())
+                    .build();
+        }
         return Response.ok(updatedTodoItem).build();
     }
 
@@ -129,7 +135,7 @@ public class TodoItemResource {
             throw new NotFoundException();
         }
 
-        todoItemRepository.remove(id);
+        todoItemRepository.delete(id);
 
         return Response.noContent().build();
     }
