@@ -142,7 +142,6 @@ public class TodoItemResource {
         try {
             todoItemRepository.update(existingTodoItem);
         } catch (OptimisticLockException ex) {
-//            throw new BadRequestException("Data has been updated since last fetch request. Do another fetch request to get the new data.");
             return Response
                     .status(Response.Status.BAD_REQUEST)
                     .entity("You are trying to update a record that has changed since you fetch it.")
