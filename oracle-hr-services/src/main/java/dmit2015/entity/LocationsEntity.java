@@ -2,10 +2,16 @@ package dmit2015.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
+import java.util.Objects;
+
 @Entity
-@Table(name = "LOCATIONS", schema = "HR", catalog = "")
+@Table(name = "LOCATIONS", schema = "HR")
 public class LocationsEntity {
+
     @Id
+//    @SequenceGenerator(name="EMPLOYEES_EMPLOYEEID_GENERATOR", sequenceName="EMPLOYEES_SEQ", allocationSize = 100)
+//    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="EMPLOYEES_EMPLOYEEID_GENERATOR")
     @Column(name = "LOCATION_ID", nullable = false, precision = 0)
     private Short locationId;
     @Basic
@@ -23,6 +29,11 @@ public class LocationsEntity {
     @Basic
     @Column(name = "COUNTRY_ID", nullable = true, length = 2)
     private String countryId;
+    @OneToMany(mappedBy = "locationsByLocationId")
+    private Collection<DepartmentsEntity> departmentsByLocationId;
+    @ManyToOne
+    @JoinColumn(name = "COUNTRY_ID", referencedColumnName = "COUNTRY_ID", insertable = false, updatable = false)
+    private CountriesEntity countriesByCountryId;
 
     public Short getLocationId() {
         return locationId;
@@ -76,29 +87,28 @@ public class LocationsEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         LocationsEntity that = (LocationsEntity) o;
-
-        if (locationId != null ? !locationId.equals(that.locationId) : that.locationId != null) return false;
-        if (streetAddress != null ? !streetAddress.equals(that.streetAddress) : that.streetAddress != null)
-            return false;
-        if (postalCode != null ? !postalCode.equals(that.postalCode) : that.postalCode != null) return false;
-        if (city != null ? !city.equals(that.city) : that.city != null) return false;
-        if (stateProvince != null ? !stateProvince.equals(that.stateProvince) : that.stateProvince != null)
-            return false;
-        if (countryId != null ? !countryId.equals(that.countryId) : that.countryId != null) return false;
-
-        return true;
+        return Objects.equals(locationId, that.locationId) && Objects.equals(streetAddress, that.streetAddress) && Objects.equals(postalCode, that.postalCode) && Objects.equals(city, that.city) && Objects.equals(stateProvince, that.stateProvince) && Objects.equals(countryId, that.countryId);
     }
 
     @Override
     public int hashCode() {
-        int result = locationId != null ? locationId.hashCode() : 0;
-        result = 31 * result + (streetAddress != null ? streetAddress.hashCode() : 0);
-        result = 31 * result + (postalCode != null ? postalCode.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
-        result = 31 * result + (stateProvince != null ? stateProvince.hashCode() : 0);
-        result = 31 * result + (countryId != null ? countryId.hashCode() : 0);
-        return result;
+        return Objects.hash(locationId, streetAddress, postalCode, city, stateProvince, countryId);
+    }
+
+    public Collection<DepartmentsEntity> getDepartmentsByLocationId() {
+        return departmentsByLocationId;
+    }
+
+    public void setDepartmentsByLocationId(Collection<DepartmentsEntity> departmentsByLocationId) {
+        this.departmentsByLocationId = departmentsByLocationId;
+    }
+
+    public CountriesEntity getCountriesByCountryId() {
+        return countriesByCountryId;
+    }
+
+    public void setCountriesByCountryId(CountriesEntity countriesByCountryId) {
+        this.countriesByCountryId = countriesByCountryId;
     }
 }

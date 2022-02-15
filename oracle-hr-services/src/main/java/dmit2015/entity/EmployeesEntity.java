@@ -2,15 +2,20 @@ package dmit2015.entity;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Objects;
 
 @Entity
-@Table(name = "EMPLOYEES", schema = "HR", catalog = "")
+@Table(name = "EMPLOYEES", schema = "HR")
 public class EmployeesEntity {
 
     @Id
+//    @SequenceGenerator(name="EMPLOYEES_EMPLOYEEID_GENERATOR", sequenceName="EMPLOYEES_SEQ", allocationSize = 1)
+//    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="EMPLOYEES_EMPLOYEEID_GENERATOR")
     @Column(name = "EMPLOYEE_ID", nullable = false, precision = 0)
     private Integer employeeId;
+
     @Basic
     @Column(name = "FIRST_NAME", nullable = true, length = 20)
     private String firstName;
@@ -25,7 +30,7 @@ public class EmployeesEntity {
     private String phoneNumber;
     @Basic
     @Column(name = "HIRE_DATE", nullable = false)
-    private Date hireDate;
+    private LocalDate hireDate;
     @Basic
     @Column(name = "JOB_ID", nullable = false, length = 10)
     private String jobId;
@@ -41,6 +46,21 @@ public class EmployeesEntity {
     @Basic
     @Column(name = "DEPARTMENT_ID", nullable = true, precision = 0)
     private Short departmentId;
+    @OneToMany(mappedBy = "employeesByManagerId")
+    private Collection<DepartmentsEntity> departmentsByEmployeeId;
+    @ManyToOne
+    @JoinColumn(name = "JOB_ID", referencedColumnName = "JOB_ID", nullable = false, insertable = false, updatable = false)
+    private JobsEntity jobsByJobId;
+    @ManyToOne
+    @JoinColumn(name = "MANAGER_ID", referencedColumnName = "EMPLOYEE_ID", insertable = false, updatable = false)
+    private EmployeesEntity employeesByManagerId;
+    @OneToMany(mappedBy = "employeesByManagerId")
+    private Collection<EmployeesEntity> employeesByEmployeeId;
+    @ManyToOne
+    @JoinColumn(name = "DEPARTMENT_ID", referencedColumnName = "DEPARTMENT_ID", insertable = false, updatable = false)
+    private DepartmentsEntity departmentsByDepartmentId;
+    @OneToMany(mappedBy = "employeesByEmployeeId")
+    private Collection<JobHistoryEntity> jobHistoriesByEmployeeId;
 
     public Integer getEmployeeId() {
         return employeeId;
@@ -82,11 +102,11 @@ public class EmployeesEntity {
         this.phoneNumber = phoneNumber;
     }
 
-    public Date getHireDate() {
+    public LocalDate getHireDate() {
         return hireDate;
     }
 
-    public void setHireDate(Date hireDate) {
+    public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
     }
 
@@ -134,38 +154,60 @@ public class EmployeesEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         EmployeesEntity that = (EmployeesEntity) o;
-
-        if (employeeId != null ? !employeeId.equals(that.employeeId) : that.employeeId != null) return false;
-        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        if (phoneNumber != null ? !phoneNumber.equals(that.phoneNumber) : that.phoneNumber != null) return false;
-        if (hireDate != null ? !hireDate.equals(that.hireDate) : that.hireDate != null) return false;
-        if (jobId != null ? !jobId.equals(that.jobId) : that.jobId != null) return false;
-        if (salary != null ? !salary.equals(that.salary) : that.salary != null) return false;
-        if (commissionPct != null ? !commissionPct.equals(that.commissionPct) : that.commissionPct != null)
-            return false;
-        if (managerId != null ? !managerId.equals(that.managerId) : that.managerId != null) return false;
-        if (departmentId != null ? !departmentId.equals(that.departmentId) : that.departmentId != null) return false;
-
-        return true;
+        return Objects.equals(employeeId, that.employeeId) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(email, that.email) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(hireDate, that.hireDate) && Objects.equals(jobId, that.jobId) && Objects.equals(salary, that.salary) && Objects.equals(commissionPct, that.commissionPct) && Objects.equals(managerId, that.managerId) && Objects.equals(departmentId, that.departmentId);
     }
 
     @Override
     public int hashCode() {
-        int result = employeeId != null ? employeeId.hashCode() : 0;
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
-        result = 31 * result + (hireDate != null ? hireDate.hashCode() : 0);
-        result = 31 * result + (jobId != null ? jobId.hashCode() : 0);
-        result = 31 * result + (salary != null ? salary.hashCode() : 0);
-        result = 31 * result + (commissionPct != null ? commissionPct.hashCode() : 0);
-        result = 31 * result + (managerId != null ? managerId.hashCode() : 0);
-        result = 31 * result + (departmentId != null ? departmentId.hashCode() : 0);
-        return result;
+        return Objects.hash(employeeId, firstName, lastName, email, phoneNumber, hireDate, jobId, salary, commissionPct, managerId, departmentId);
+    }
+
+    public Collection<DepartmentsEntity> getDepartmentsByEmployeeId() {
+        return departmentsByEmployeeId;
+    }
+
+    public void setDepartmentsByEmployeeId(Collection<DepartmentsEntity> departmentsByEmployeeId) {
+        this.departmentsByEmployeeId = departmentsByEmployeeId;
+    }
+
+    public JobsEntity getJobsByJobId() {
+        return jobsByJobId;
+    }
+
+    public void setJobsByJobId(JobsEntity jobsByJobId) {
+        this.jobsByJobId = jobsByJobId;
+    }
+
+    public EmployeesEntity getEmployeesByManagerId() {
+        return employeesByManagerId;
+    }
+
+    public void setEmployeesByManagerId(EmployeesEntity employeesByManagerId) {
+        this.employeesByManagerId = employeesByManagerId;
+    }
+
+    public Collection<EmployeesEntity> getEmployeesByEmployeeId() {
+        return employeesByEmployeeId;
+    }
+
+    public void setEmployeesByEmployeeId(Collection<EmployeesEntity> employeesByEmployeeId) {
+        this.employeesByEmployeeId = employeesByEmployeeId;
+    }
+
+    public DepartmentsEntity getDepartmentsByDepartmentId() {
+        return departmentsByDepartmentId;
+    }
+
+    public void setDepartmentsByDepartmentId(DepartmentsEntity departmentsByDepartmentId) {
+        this.departmentsByDepartmentId = departmentsByDepartmentId;
+    }
+
+    public Collection<JobHistoryEntity> getJobHistoriesByEmployeeId() {
+        return jobHistoriesByEmployeeId;
+    }
+
+    public void setJobHistoriesByEmployeeId(Collection<JobHistoryEntity> jobHistoriesByEmployeeId) {
+        this.jobHistoriesByEmployeeId = jobHistoriesByEmployeeId;
     }
 }

@@ -1,14 +1,11 @@
 package dmit2015.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import org.hibernate.annotations.Immutable;
 
-import java.util.UUID;
+import java.util.Objects;
 
 @Entity
-@Immutable
-@Table(name = "EMP_DETAILS_VIEW", schema = "HR", catalog = "")
+@Table(name = "EMP_DETAILS_VIEW", schema = "HR")
 public class EmpDetailsViewEntity {
 
     @Id
@@ -193,50 +190,12 @@ public class EmpDetailsViewEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         EmpDetailsViewEntity that = (EmpDetailsViewEntity) o;
-
-        if (employeeId != null ? !employeeId.equals(that.employeeId) : that.employeeId != null) return false;
-        if (jobId != null ? !jobId.equals(that.jobId) : that.jobId != null) return false;
-        if (managerId != null ? !managerId.equals(that.managerId) : that.managerId != null) return false;
-        if (departmentId != null ? !departmentId.equals(that.departmentId) : that.departmentId != null) return false;
-        if (locationId != null ? !locationId.equals(that.locationId) : that.locationId != null) return false;
-        if (countryId != null ? !countryId.equals(that.countryId) : that.countryId != null) return false;
-        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
-        if (salary != null ? !salary.equals(that.salary) : that.salary != null) return false;
-        if (commissionPct != null ? !commissionPct.equals(that.commissionPct) : that.commissionPct != null)
-            return false;
-        if (departmentName != null ? !departmentName.equals(that.departmentName) : that.departmentName != null)
-            return false;
-        if (jobTitle != null ? !jobTitle.equals(that.jobTitle) : that.jobTitle != null) return false;
-        if (city != null ? !city.equals(that.city) : that.city != null) return false;
-        if (stateProvince != null ? !stateProvince.equals(that.stateProvince) : that.stateProvince != null)
-            return false;
-        if (countryName != null ? !countryName.equals(that.countryName) : that.countryName != null) return false;
-        if (regionName != null ? !regionName.equals(that.regionName) : that.regionName != null) return false;
-
-        return true;
+        return Objects.equals(employeeId, that.employeeId) && Objects.equals(jobId, that.jobId) && Objects.equals(managerId, that.managerId) && Objects.equals(departmentId, that.departmentId) && Objects.equals(locationId, that.locationId) && Objects.equals(countryId, that.countryId) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(salary, that.salary) && Objects.equals(commissionPct, that.commissionPct) && Objects.equals(departmentName, that.departmentName) && Objects.equals(jobTitle, that.jobTitle) && Objects.equals(city, that.city) && Objects.equals(stateProvince, that.stateProvince) && Objects.equals(countryName, that.countryName) && Objects.equals(regionName, that.regionName);
     }
 
     @Override
     public int hashCode() {
-        int result = employeeId != null ? employeeId.hashCode() : 0;
-        result = 31 * result + (jobId != null ? jobId.hashCode() : 0);
-        result = 31 * result + (managerId != null ? managerId.hashCode() : 0);
-        result = 31 * result + (departmentId != null ? departmentId.hashCode() : 0);
-        result = 31 * result + (locationId != null ? locationId.hashCode() : 0);
-        result = 31 * result + (countryId != null ? countryId.hashCode() : 0);
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (salary != null ? salary.hashCode() : 0);
-        result = 31 * result + (commissionPct != null ? commissionPct.hashCode() : 0);
-        result = 31 * result + (departmentName != null ? departmentName.hashCode() : 0);
-        result = 31 * result + (jobTitle != null ? jobTitle.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
-        result = 31 * result + (stateProvince != null ? stateProvince.hashCode() : 0);
-        result = 31 * result + (countryName != null ? countryName.hashCode() : 0);
-        result = 31 * result + (regionName != null ? regionName.hashCode() : 0);
-        return result;
+        return Objects.hash(employeeId, jobId, managerId, departmentId, locationId, countryId, firstName, lastName, salary, commissionPct, departmentName, jobTitle, city, stateProvince, countryName, regionName);
     }
 }
