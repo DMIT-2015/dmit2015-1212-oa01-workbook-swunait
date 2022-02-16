@@ -2,13 +2,18 @@ package dmit2015.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 @Table(name = "EMPLOYEES", schema = "HR")
-public class EmployeesEntity {
+public class EmployeesEntity implements Serializable {
+
+    public String getFullName() {
+        return String.format("%s %s", firstName, lastName);
+    }
 
     @Id
     @Column(name = "EMPLOYEE_ID", nullable = false, precision = 0)

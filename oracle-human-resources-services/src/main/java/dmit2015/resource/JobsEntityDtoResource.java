@@ -1,12 +1,12 @@
 package dmit2015.resource;
 
-
 import common.validator.BeanValidator;
 import dmit2015.entity.JobsEntity;
+import dmit2015.dto.JobsEntityDto;
+import dmit2015.mapper.JobsEntityMapper;
 import dmit2015.repository.JobsEntityRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.persistence.OptimisticLockException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
@@ -14,19 +14,26 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import java.net.URI;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
-@Path("JobsEntitys")                    // All methods of this class are associated this URL path
+@Path("JobsEntityDtos")                    // All methods of this class are associated this URL path
 @Consumes(MediaType.APPLICATION_JSON)    // All methods this class accept only JSON format data
 @Produces(MediaType.APPLICATION_JSON)    // All methods returns data that has been converted to JSON format
-public class JobsEntityResource {
+public class JobsEntityDtoResource {
 
     @Inject
     private JobsEntityRepository _jobsEntityRepository;
 
     @GET    // This method only accepts HTTP GET requests.
     public Response listJobsEntitys() {
-        return Response.ok(_jobsEntityRepository.list()).build();
+        return Response.ok(
+                _jobsEntityRepository
+                        .list()
+                        .stream()
+                        .map(JobsEntityMapper.INSTANCE::toDto)
+                        .collect(Collectors.toList())
+        ).build();
     }
 
     @Path("{id}")
@@ -34,12 +41,14 @@ public class JobsEntityResource {
     public Response findJobsEntityById(@PathParam("id") Long jobsEntityId) {
         JobsEntity existingJobsEntity = _jobsEntityRepository.findOptional(jobsEntityId).orElseThrow(NotFoundException::new);
 
-        return Response.ok(existingJobsEntity).build();
+        JobsEntityDto dto = JobsEntityMapper.INSTANCE.toDto(existingJobsEntity);
+
+        return Response.ok(dto).build();
     }
 
     @POST    // This method only accepts HTTP POST requests.
-    public Response addJobsEntity(JobsEntity newJobsEntity, @Context UriInfo uriInfo) {
-
+    public Response addJobsEntity(JobsEntityDto dto, @Context UriInfo uriInfo) {
+        JobsEntity newJobsEntity = JobsEntityMapper.INSTANCE.toEntity(dto);
         String errorMessage = BeanValidator.validateBean(JobsEntity.class, newJobsEntity);
         if (errorMessage != null) {
             return Response
@@ -73,12 +82,15 @@ public class JobsEntityResource {
 
     @PUT            // This method only accepts HTTP PUT requests.
     @Path("{id}")    // This method accepts a path parameter and gives it a name of id
-    public Response updateJobsEntity(@PathParam("id") String id, JobsEntity updatedJobsEntity) {
-        if (!id.equals(updatedJobsEntity.getJobId())) {
+    public Response updateJobsEntity(@PathParam("id") Long jobsEntityId, JobsEntityDto dto) {
+        if (!jobsEntityId.equals(dto.getJobId())) {
             throw new BadRequestException();
         }
 
-        String errorMessage = BeanValidator.validateBean(JobsEntity.class, updatedJobsEntity);
+        _jobsEntityRepository.findOptional(jobsEntityId).orElseThrow(NotFoundException::new);
+        JobsEntity existingJobsEntity = JobsEntityMapper.INSTANCE.toEntity(dto);
+
+        String errorMessage = BeanValidator.validateBean(JobsEntity.class, existingJobsEntity);
         if (errorMessage != null) {
             return Response
                     .status(Response.Status.BAD_REQUEST)
@@ -86,21 +98,8 @@ public class JobsEntityResource {
                     .build();
         }
 
-        JobsEntity existingJobsEntity = _jobsEntityRepository
-                .findOptional(id)
-                .orElseThrow(NotFoundException::new);
-        // TODO: copy properties from the updated entity to the existing entity such as copy the version property shown below
-        existingJobsEntity.setJobTitle(updatedJobsEntity.getJobTitle());
-        existingJobsEntity.setMaxSalary(updatedJobsEntity.getMaxSalary());
-        existingJobsEntity.setMinSalary(updatedJobsEntity.getMinSalary());
-
         try {
             _jobsEntityRepository.update(existingJobsEntity);
-        } catch (OptimisticLockException ex) {
-            return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .entity("The data you are trying to update has changed since your last read request.")
-                    .build();
         } catch (Exception ex) {
             // Return an HTTP status of "500 Internal Server Error" containing the exception message
             return Response.
@@ -109,20 +108,18 @@ public class JobsEntityResource {
                     .build();
         }
 
-        // Returns an HTTP status "200 OK" and include in the body of the response the object that was updated
-        return Response.ok(existingJobsEntity).build();
+        // Returns an HTTP status "204 No Content" if the JobsEntity was successfully persisted
+        return Response.noContent().build();
     }
 
     @DELETE            // This method only accepts HTTP DELETE requests.
     @Path("{id}")    // This method accepts a path parameter and gives it a name of id
-    public Response delete(@PathParam("id") String id) {
+    public Response delete(@PathParam("id") Long jobsEntityId) {
 
-        JobsEntity existingJobsEntity = _jobsEntityRepository
-                .findOptional(id)
-                .orElseThrow(NotFoundException::new);
+        _jobsEntityRepository.findOptional(jobsEntityId).orElseThrow(NotFoundException::new);
 
         try {
-            _jobsEntityRepository.remove(existingJobsEntity);    // Removes the JobsEntity from being persisted
+            _jobsEntityRepository.delete(jobsEntityId);    // Removes the JobsEntity from being persisted
         } catch (Exception ex) {
             // Return a HTTP status of "500 Internal Server Error" containing the exception message
             return Response

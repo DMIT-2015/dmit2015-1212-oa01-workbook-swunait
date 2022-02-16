@@ -1,12 +1,11 @@
 package dmit2015.resource;
-
-
 import common.validator.BeanValidator;
 import dmit2015.entity.LocationsEntity;
+import dmit2015.dto.LocationsEntityDto;
+import dmit2015.mapper.LocationsEntityMapper;
 import dmit2015.repository.LocationsEntityRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.persistence.OptimisticLockException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
@@ -14,19 +13,26 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import java.net.URI;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
-@Path("LocationsEntitys")                    // All methods of this class are associated this URL path
+@Path("LocationsEntityDtos")                    // All methods of this class are associated this URL path
 @Consumes(MediaType.APPLICATION_JSON)    // All methods this class accept only JSON format data
 @Produces(MediaType.APPLICATION_JSON)    // All methods returns data that has been converted to JSON format
-public class LocationsEntityResource {
+public class LocationsEntityDtoResource {
 
     @Inject
     private LocationsEntityRepository _locationsEntityRepository;
 
     @GET    // This method only accepts HTTP GET requests.
     public Response listLocationsEntitys() {
-        return Response.ok(_locationsEntityRepository.list()).build();
+        return Response.ok(
+                _locationsEntityRepository
+                        .list()
+                        .stream()
+                        .map(LocationsEntityMapper.INSTANCE::toDto)
+                        .collect(Collectors.toList())
+        ).build();
     }
 
     @Path("{id}")
@@ -34,12 +40,14 @@ public class LocationsEntityResource {
     public Response findLocationsEntityById(@PathParam("id") Long locationsEntityId) {
         LocationsEntity existingLocationsEntity = _locationsEntityRepository.findOptional(locationsEntityId).orElseThrow(NotFoundException::new);
 
-        return Response.ok(existingLocationsEntity).build();
+        LocationsEntityDto dto = LocationsEntityMapper.INSTANCE.toDto(existingLocationsEntity);
+
+        return Response.ok(dto).build();
     }
 
     @POST    // This method only accepts HTTP POST requests.
-    public Response addLocationsEntity(LocationsEntity newLocationsEntity, @Context UriInfo uriInfo) {
-
+    public Response addLocationsEntity(LocationsEntityDto dto, @Context UriInfo uriInfo) {
+        LocationsEntity newLocationsEntity = LocationsEntityMapper.INSTANCE.toEntity(dto);
         String errorMessage = BeanValidator.validateBean(LocationsEntity.class, newLocationsEntity);
         if (errorMessage != null) {
             return Response
@@ -73,12 +81,15 @@ public class LocationsEntityResource {
 
     @PUT            // This method only accepts HTTP PUT requests.
     @Path("{id}")    // This method accepts a path parameter and gives it a name of id
-    public Response updateLocationsEntity(@PathParam("id") Short id, LocationsEntity updatedLocationsEntity) {
-        if (!id.equals(updatedLocationsEntity.getLocationId())) {
+    public Response updateLocationsEntity(@PathParam("id") Long locationsEntityId, LocationsEntityDto dto) {
+        if (!locationsEntityId.equals(dto.getLocationId())) {
             throw new BadRequestException();
         }
 
-        String errorMessage = BeanValidator.validateBean(LocationsEntity.class, updatedLocationsEntity);
+        _locationsEntityRepository.findOptional(locationsEntityId).orElseThrow(NotFoundException::new);
+        LocationsEntity existingLocationsEntity = LocationsEntityMapper.INSTANCE.toEntity(dto);
+
+        String errorMessage = BeanValidator.validateBean(LocationsEntity.class, existingLocationsEntity);
         if (errorMessage != null) {
             return Response
                     .status(Response.Status.BAD_REQUEST)
@@ -86,22 +97,8 @@ public class LocationsEntityResource {
                     .build();
         }
 
-        LocationsEntity existingLocationsEntity = _locationsEntityRepository
-                .findOptional(id)
-                .orElseThrow(NotFoundException::new);
-        // TODO: copy properties from the updated entity to the existing entity such as copy the version property shown below
-        existingLocationsEntity.setCity(updatedLocationsEntity.getCity());
-        existingLocationsEntity.setPostalCode(updatedLocationsEntity.getPostalCode());
-        existingLocationsEntity.setStateProvince(updatedLocationsEntity.getStateProvince());
-        existingLocationsEntity.setStreetAddress(updatedLocationsEntity.getStreetAddress());
-
         try {
             _locationsEntityRepository.update(existingLocationsEntity);
-        } catch (OptimisticLockException ex) {
-            return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .entity("The data you are trying to update has changed since your last read request.")
-                    .build();
         } catch (Exception ex) {
             // Return an HTTP status of "500 Internal Server Error" containing the exception message
             return Response.
@@ -110,20 +107,18 @@ public class LocationsEntityResource {
                     .build();
         }
 
-        // Returns an HTTP status "200 OK" and include in the body of the response the object that was updated
-        return Response.ok(existingLocationsEntity).build();
+        // Returns an HTTP status "204 No Content" if the LocationsEntity was successfully persisted
+        return Response.noContent().build();
     }
 
     @DELETE            // This method only accepts HTTP DELETE requests.
     @Path("{id}")    // This method accepts a path parameter and gives it a name of id
-    public Response delete(@PathParam("id") Short id) {
+    public Response delete(@PathParam("id") Long locationsEntityId) {
 
-        LocationsEntity existingLocationsEntity = _locationsEntityRepository
-                .findOptional(id)
-                .orElseThrow(NotFoundException::new);
+        _locationsEntityRepository.findOptional(locationsEntityId).orElseThrow(NotFoundException::new);
 
         try {
-            _locationsEntityRepository.remove(existingLocationsEntity);    // Removes the LocationsEntity from being persisted
+            _locationsEntityRepository.delete(locationsEntityId);    // Removes the LocationsEntity from being persisted
         } catch (Exception ex) {
             // Return a HTTP status of "500 Internal Server Error" containing the exception message
             return Response
