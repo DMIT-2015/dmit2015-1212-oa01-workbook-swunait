@@ -1,8 +1,6 @@
 package dmit2015.resource;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import dmit2015.config.ApplicationConfig;
-import dmit2015.config.JAXRSConfiguration;
 import dmit2015.entity.TodoItem;
 import dmit2015.repository.TodoItemRepository;
 import io.restassured.http.ContentType;
@@ -185,6 +183,33 @@ public class TodoItemResourceArquillianRestAssuredIT {
                 .put(testDataResourceLocation)
                 .then()
                 .statusCode(200);
+
+        // Verify that record has been updated
+        String responseData = given()
+                .accept(ContentType.JSON)
+                .when()
+                .get(testDataResourceLocation)
+                .asString();
+        // Convert the JSON string to a TodoItem object
+        TodoItem updatedTodoItem = jsonb.fromJson(responseData, TodoItem.class);
+        // Verify the value of the id has not changed and the name and complete property values has changed
+        assertEquals(existingTodoItem.getId(), updatedTodoItem.getId());
+        assertEquals("REST Assured updated data", updatedTodoItem.getName());
+        assertEquals(true, updatedTodoItem.isComplete());
+
+        // Try updating the same resource again and it should now return a status of 400
+        // since we are no longer updating the resource using the latest version of the data
+        existingTodoItem.setName("Updated name again should fail");
+        existingTodoItem.setComplete(false);
+        jsonRequestBody = jsonb.toJson(existingTodoItem);
+        given()
+                .contentType(ContentType.JSON)
+                .body(jsonRequestBody)
+                .when()
+                .put(testDataResourceLocation)
+                .then()
+                .statusCode(400);
+
     }
 
     @Order(5)
