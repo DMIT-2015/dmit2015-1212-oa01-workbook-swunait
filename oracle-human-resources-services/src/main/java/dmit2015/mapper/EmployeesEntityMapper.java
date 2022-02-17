@@ -14,9 +14,9 @@ public interface EmployeesEntityMapper {
     EmployeesEntityMapper INSTANCE = Mappers.getMapper(EmployeesEntityMapper.class);
 
     @Mappings({
-            @Mapping(target = "jobTitle", source = "entity.jobsByJobId.jobTitle"),
-            @Mapping(target = "departmentName", source = "entity.departmentsByDepartmentId.departmentName"),
-            @Mapping(target = "managerName", source = "entity.employeesByManagerId.fullName")
+            @Mapping(target = "jobTitle", source = "jobsByJobId.jobTitle"),
+            @Mapping(target = "departmentName", source = "departmentsByDepartmentId.departmentName"),
+            @Mapping(target = "managerName", source = "employeesByManagerId.fullName")
     })
     EmployeesEntityDto toDto(EmployeesEntity entity);
 

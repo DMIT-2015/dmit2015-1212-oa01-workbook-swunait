@@ -172,7 +172,7 @@ public class TodoItemResourceArquillianRestAssuredIT {
         TodoItem existingTodoItem = jsonb.fromJson(jsonBody, TodoItem.class);
 
         assertNotNull(existingTodoItem);
-        existingTodoItem.setName("Updated Name");
+        existingTodoItem.setName("REST Assured updated data");
         existingTodoItem.setComplete(true);
 
         String jsonRequestBody = jsonb.toJson(existingTodoItem);
