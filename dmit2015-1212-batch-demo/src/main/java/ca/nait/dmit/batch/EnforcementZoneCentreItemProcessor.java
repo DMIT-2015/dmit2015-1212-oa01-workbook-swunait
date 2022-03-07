@@ -28,13 +28,14 @@ public class EnforcementZoneCentreItemProcessor implements ItemProcessor {
 
 //        String wktText = "POINT" + tokens[6].replaceAll("[\",]","");
 //        Point geoLocation = (org.locationtech.jts.geom.Point) new WKTReader().read(wktText);
-//        currentEnforcementZoneCentre.setGeoLocation(geoLocation);
 
         Point geoLocation = new GeometryFactory().createPoint(
                 new Coordinate(
                         currentEnforcementZoneCentre.getLongitude(), currentEnforcementZoneCentre.getLatitude()
                 )
         );
+
+        currentEnforcementZoneCentre.setGeoLocation(geoLocation);
 
         return currentEnforcementZoneCentre;
     }
