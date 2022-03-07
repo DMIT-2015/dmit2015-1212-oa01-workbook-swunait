@@ -1,0 +1,9 @@
+### Start a new batch job
+POST http://localhost:8080/dmit2015-1212-batch-demo/webapi/batch-jobs/job
+
+### Check the status of batch job 1
+GET http://localhost:8080/dmit2015-1212-batch-demo/webapi/batch-jobs/1
+
+### Get a count on the number EnforcementZoneCentres of records
+GET http://localhost:8080/dmit2015-1212-batch-demo/webapi/EnforcementZoneCentres/count
+
