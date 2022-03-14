@@ -24,10 +24,50 @@
             <version>9.1.0</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.microprofile</groupId>
+            <artifactId>microprofile</artifactId>
+            <version>5.0</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core-jakarta</artifactId>
-            <version>5.6.1.Final</version>
+            <version>5.6.5.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-spatial</artifactId>
+            <version>5.6.5.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>10.2.0.jre17</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>11.0.0</version>
+            <classifier>jakarta</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>org.omnifaces</groupId>
+            <artifactId>omnifaces</artifactId>
+            <version>4.0-M13</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
@@ -61,6 +101,47 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.3.2</version>
             </plugin>
+
+            <plugin>
+                <!-- mvn wildfly-jar:dev-watch -->
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-jar-maven-plugin</artifactId>
+                <version>7.0.0.Final</version>
+                <configuration>
+                    <feature-pack-location>wildfly-preview@maven(org.jboss.universe:community-universe)</feature-pack-location>
+                    <layers>
+                        <!-- https://docs.wildfly.org/26/Bootable_Guide.html#wildfly_layers -->
+                        <layer>jaxrs-server</layer>
+                        <layer>management</layer>
+                        <layer>ejb</layer>
+                        <layer>mail</layer>
+                        <layer>batch-jberet</layer>
+                        <layer>microprofile-config</layer>
+                        <layer>jsf</layer>
+                    </layers>
+                    <excluded-layers>
+                        <layer>deployment-scanner</layer>
+                    </excluded-layers>
+                    <plugin-options>
+                        <jboss-fork-embedded>true</jboss-fork-embedded>
+                    </plugin-options>
+                    <cli-sessions>
+                        <cli-session>
+                            <script-files>
+                                <script>/home/user2015/jdk/server/wildfly-scripts/mail.cli</script>
+                            </script-files>
+                        </cli-session>
+                    </cli-sessions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 </project>
