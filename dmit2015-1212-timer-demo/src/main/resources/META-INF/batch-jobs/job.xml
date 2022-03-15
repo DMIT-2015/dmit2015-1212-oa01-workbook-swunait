@@ -1,5 +1,11 @@
 <job id="myJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
     <step id="myStep" >
-        <batchlet ref="enforcementZoneCentreBatchlet"></batchlet>
+        <batchlet ref="enforcementZoneCentreBatchlet">
+            <properties>
+                <property name="input_file"
+                          value="/home/user2015/Downloads/Scheduled_Photo_Enforcement_Zone_Centre_Points.csv"/>
+            </properties>
+            
+        </batchlet>
     </step>
 </job>
