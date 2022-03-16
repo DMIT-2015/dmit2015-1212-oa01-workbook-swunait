@@ -27,6 +27,9 @@ public class BatchJobTimerSessionBean {
     // @Inject // Use only if your project includes a LoggerProducer
     // private Logger _logger;
 
+    @Inject
+    private MonitorBatchJobSessionBean _monitorBatchJobSessionBean; // This is used to monitor the status of the batch job
+
     /**
      * The annotation @Timeout method is executed when a programmatic timer expires
      * @param timer contains information about the timer that expired
@@ -41,6 +44,8 @@ public class BatchJobTimerSessionBean {
             // Create a new job instance and start the first execution of that instance asynchronously.
             long executionId = jobOperator.start(batchJobXmlFilename, null);
             _logger.info("Successfully started batch job with executionId " + executionId);
+            // Create an interval timer to monitor the status of the batch job
+            _monitorBatchJobSessionBean.createTimer(executionId);
         } catch (Exception e) {
             _logger.fine(e.getMessage());
             e.printStackTrace();

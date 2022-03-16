@@ -1,6 +1,7 @@
 package ca.nait.dmit.view;
 
 import common.ejb.BatchJobTimerSessionBean;
+import common.ejb.MonitorBatchJobSessionBean;
 import lombok.Getter;
 import lombok.Setter;
 import org.omnifaces.util.Messages;
