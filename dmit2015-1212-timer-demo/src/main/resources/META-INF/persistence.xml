@@ -10,7 +10,7 @@
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.spatial.dialect.sqlserver.SqlServer2012SpatialDialect"/>
 
-            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
 
             <property name="hibernate.jdbc.batch_size" value="10" />
 

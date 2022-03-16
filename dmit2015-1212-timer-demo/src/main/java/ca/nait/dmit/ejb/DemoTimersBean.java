@@ -100,7 +100,7 @@ public class DemoTimersBean {        // Also known as Calendar-Based Timers
                 if (jobExecution.getBatchStatus() == BatchStatus.COMPLETED) {
                         timer.cancel();
                         // send email to notified batch job has completed
-                        List<EnforcementZoneCentre> entities = enforcementZoneCentreRepository.list();
+                        //List<EnforcementZoneCentre> entities = enforcementZoneCentreRepository.list();
 
                 } else if (jobExecution.getBatchStatus() == BatchStatus.FAILED) {
                         // send email to notified batch job has failed
