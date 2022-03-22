@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 /**
  * A stateless session bean for creating a EJB Timer and for handling the event when the timer expires.
  *
- * To use this session session from another managed class, simply use the @Inject annotation to inject an instance of this bean:
+ * To use this session bean from another managed class, simply use the @Inject annotation to inject an instance of this bean:
  *
  *  @Inject
  *  private DownloadCsvFileTimerSessionBean _downloadTimerBean;
