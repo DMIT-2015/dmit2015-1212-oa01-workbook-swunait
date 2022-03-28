@@ -18,6 +18,12 @@
     <ui:define name="maincontent">
         <h1>JSF CRUD demo with Movie and TodoItem</h1>
 
+        <p>The current weather temperature in Edmonton is #{weatherServiceController.weatherData.main.temp} &#176;C
+            feels like #{weatherServiceController.weatherData.main.feelsLike} &#176;C
+            with a humidity of #{weatherServiceController.weatherData.main.humidity}%
+        </p>
+
+
         <h:graphicImage name="images/movie.png" alt="Movie Image"
             />
 
