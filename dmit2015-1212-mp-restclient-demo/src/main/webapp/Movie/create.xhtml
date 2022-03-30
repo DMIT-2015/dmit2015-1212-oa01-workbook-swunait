@@ -13,65 +13,75 @@
         template="/WEB-INF/jsf-templates/layout.xhtml"
 >
 
-    <ui:param name="title" value="Create Movie"/>
+    <ui:param name="title" value="#{bundle['new.movie']}"/>
 
     <ui:define name="maincontent">
 
-        <h1>Create Movie</h1>
+        <h1>#{bundle['new.movie']}</h1>
 
         <p:messages id="messages"/>
 
         <h:form>
             <p:focus context="panel"/>
 
-            <p:panel id="panel" header="Movie Details">
+            <p:panel id="panel" header="#{bundle['movie.details']}">
 
                 <div class="field">
-                    <label for="title">Title</label>
+                    <label for="title">#{bundle['title']}</label>
                     <p:inputText
                             id="title"
                             type="text"
                             class="inputfield w-full"
+                            required="true"
+                            requiredMessage="#{bundle['movie.title.required']}"
                             value="#{currentMovieCreateController.newMovie.title}">
                     </p:inputText>
                 </div>
 
                 <div class="field">
-                    <label for="releaseDate">Release Date</label>
+                    <label for="releaseDate">#{bundle['release.date']}</label>
                     <p:inputText
                             id="releaseDate"
                             type="text"
                             class="inputfield w-full"
+                            required="true"
+                            requiredMessage="#{bundle['movie.releaseDate.required']}"
                             value="#{currentMovieCreateController.newMovie.releaseDate}">
                     </p:inputText>
                 </div>
 
                 <div class="field">
-                    <label for="rating">Rating</label>
+                    <label for="rating">#{bundle['rating']}</label>
                     <p:inputText
                             id="rating"
                             type="text"
                             class="inputfield w-full"
+                            required="true"
+                            requiredMessage="#{bundle['movie.rating.required']}"
                             value="#{currentMovieCreateController.newMovie.rating}">
                     </p:inputText>
                 </div>
 
                 <div class="field">
-                    <label for="genre">Genre</label>
+                    <label for="genre">#{bundle['genre']}</label>
                     <p:inputText
                             id="genre"
                             type="text"
                             class="inputfield w-full"
+                            required="true"
+                            requiredMessage="#{bundle['movie.genre.required']}"
                             value="#{currentMovieCreateController.newMovie.genre}">
                     </p:inputText>
                 </div>
 
                 <div class="field">
-                    <label for="price">Price</label>
+                    <label for="price">#{bundle['price']}</label>
                     <p:inputText
                             id="price"
                             type="text"
                             class="inputfield w-full"
+                            required="true"
+                            requiredMessage="#{bundle['movie.price.required']}"
                             value="#{currentMovieCreateController.newMovie.price}">
                     </p:inputText>
                 </div>
