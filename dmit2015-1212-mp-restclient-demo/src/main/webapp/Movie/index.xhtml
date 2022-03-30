@@ -62,26 +62,26 @@
                     </h:outputText>
                 </p:column>
 
-                <f:verbatim>
                 <p:column headerText="Action">
                     <p:link id="editLink" outcome="edit" value="edit">
-                        <f:param name="editId" value="#{currentItem.id}"/>
+                        <f:param name="editId" value="#{currentItem.key}"/>
                     </p:link>
+                    <f:verbatim>
 
                     |
 
                     <p:link id="detailsLink" outcome="details" value="details">
-                        <f:param name="editId" value="#{currentItem.id}"/>
+                        <f:param name="editId" value="#{currentItem.key}"/>
                     </p:link>
 
                     |
 
                     <p:link id="deleteLink" outcome="delete" value="delete">
-                        <f:param name="editId" value="#{currentItem.id}"/>
+                        <f:param name="editId" value="#{currentItem.key}"/>
                     </p:link>
+                    </f:verbatim>
                 </p:column>
 
-                </f:verbatim>
 
             </p:dataTable>
 
