@@ -18,6 +18,14 @@
     </properties>
 
     <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/org.glassfish.soteria/jakarta.security.enterprise -->
+        <dependency>
+            <groupId>org.glassfish.soteria</groupId>
+            <artifactId>jakarta.security.enterprise</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-web-api</artifactId>
@@ -120,6 +128,7 @@
                         <layer>management</layer>
                         <layer>microprofile-config</layer>
                         <layer>jsf</layer>
+                        <layer>ee-security</layer>
                     </layers>
                     <excluded-layers>
                         <layer>deployment-scanner</layer>
@@ -127,6 +136,13 @@
                     <plugin-options>
                         <jboss-fork-embedded>true</jboss-fork-embedded>
                     </plugin-options>
+                    <cli-sessions>
+                        <cli-session>
+                            <script-files>
+                                <script>/home/user2015/jdk/server/wildfly-scripts/configure-elytron.cli</script>
+                            </script-files>
+                        </cli-session>
+                    </cli-sessions>
                 </configuration>
                 <executions>
                     <execution>
