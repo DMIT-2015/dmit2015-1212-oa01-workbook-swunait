@@ -7,6 +7,7 @@ import jakarta.inject.Inject;
 import jakarta.security.enterprise.SecurityContext;
 import jakarta.transaction.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
@@ -23,16 +24,18 @@ public class MovieRepository extends AbstractJpaRepository<Movie, Long> {
     }
 
     public List<Movie> list() {
+        List<Movie> resultList = new ArrayList<>();
         if (_securityContext.getCallerPrincipal() == null ) {
-            return super.list();
+            resultList = super.list();
         } else {
             String username = _securityContext.getCallerPrincipal().getName();
-            return getEntityManager().createQuery(
+            resultList = getEntityManager().createQuery(
                             "SELECT m FROM Movie m WHERE m.username = :usernameValue "
                             , Movie.class)
                     .setParameter("usernameValue", username)
                     .getResultList();
         }
+        return resultList;
     }
 
     public MovieRepository() {

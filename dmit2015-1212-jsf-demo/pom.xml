@@ -129,6 +129,7 @@
                         <layer>microprofile-config</layer>
                         <layer>jsf</layer>
                         <layer>ee-security</layer>
+                        <layer>undertow-https</layer>
                     </layers>
                     <excluded-layers>
                         <layer>deployment-scanner</layer>
