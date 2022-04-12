@@ -1,11 +1,42 @@
 ### Get all TodoItems
-GET http://localhost:8080/dmit2015-1212-jaxrs-demo/webapi/TodoItems
+GET http://localhost:8080/webapi/TodoItems
 
 ### Get a single TodoItem with an id of 1
-GET http://localhost:8080/dmit2015-1212-jaxrs-demo/webapi/TodoItems/1
+GET http://localhost:8080/webapi/TodoItems/1
+
+### GET a JWT Token for LDAP user DLEE
+POST http://localhost:8080/webapi/jwt/ldapJsonLogin
+Content-Type:application/json
+
+{
+  "username": "ABULL",
+  "password":"Password2015"
+}
+
+
+### GET a JWT Token for Database user Sales01
+POST http://localhost:8080/webapi/jwt/jsonLogin
+Content-Type:application/json
+
+{
+  "username": "Sales01",
+  "password":"Password2015"
+}
+
+### POST TodoItem using JWT
+
+POST http://localhost:8080/webapi/TodoItems
+Authorization: Bearer eyJraWQiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJBQlVMTCIsInVwbiI6IkFCVUxMIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIlNoaXBwaW5nIl0sImp0aSI6IjM4ZmRjZjllLWFmNDAtNGY5ZS1hMmZlLTE5OTg3Zjk4ZGFkMCIsImlhdCI6MTY0OTc3NjcxMCwiZXhwIjoxNjQ5NzkxMTEwfQ.Eb92h66JF2YoPHAZ84hhRZGk9Wq61NGnag8b2vE9wYXusws8B5SKGNz1nhcJJOQxSSJTtrvIxDl546Znx5JP_Cw08iirpwvS0KWrnUl4Rc1Ci2f_6HnK5nlyBnx2KX2bluREj4mnztRSEfeH1ByRSL3oMbEyU6wk_X1-TkmNjCLZ_lBSP9z3lRSHSSzxNQodrgPhiuZ4Vi4iN0Ku3x6mlcT1Zk0KZ6T_k5pp5hv-eqeniiAT2f59JnX_vyluSHITQE1SzawNOudvBjfvlHOTY3Ugg5HYPO-jgE1ILy9OJpV1xHkJ_-wI5C3hm1SO7_57Dy7GR55iVNb81oWy4VCKlg
+Content-Type: application/json
+
+{
+  "name": "POST TodoItem using JWT should fail",
+  "complete": true
+}
+
 
 ### POST a new TodoItem
-POST http://localhost:8080//dmit2015-1212-jaxrs-demo/webapi/TodoItems
+POST http://localhost:8080//webapi/TodoItems
 Content-Type: application/json
 
 {"name":"Finish DMIT2015 Assignment 2", "complete":false}

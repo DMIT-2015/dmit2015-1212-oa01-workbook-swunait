@@ -28,5 +28,34 @@
     </security-constraint>
     -->
 
+    <context-param>
+        <param-name>jwt.privatekey.filepath</param-name>
+        <param-value>/home/user2015/keys/jwt-private.pem</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>ldap.server</param-name>
+        <param-value>192.168.101.129</param-value>
+    </context-param>
+    <context-param>
+        <param-name>ldap.bind.name</param-name>
+        <param-value>cn=DAUSTIN,ou=IT,ou=Departments,dc=dmit2015,dc=ca</param-value>
+    </context-param>
+    <context-param>
+        <param-name>ldap.bind.password</param-name>
+        <param-value>Password2015</param-value>
+    </context-param>
+    <context-param>
+        <param-name>ldap.search.dn</param-name>
+        <param-value>ou=Departments,dc=dmit2015,dc=ca</param-value>
+    </context-param>
+
+    <!-- To use security role annotations (@RolesAllowed, @PermitAll, @DenyAll) with JAX-RS in Wildfly,
+    you MUST set to "true" the context-param "resteasy.role.based.security" -->
+    <context-param>
+        <param-name>resteasy.role.based.security</param-name>
+        <param-value>true</param-value> <!-- Explicitly required to use @RolesAllowed, @PermitAll with JAX-RS -->
+    </context-param>
+
 </web-app>
 
