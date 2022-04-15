@@ -1,6 +1,61 @@
 ### Get all Employee
 GET https://localhost:8443/backend/webapi/employees
 
+### Get all Employee with JWT
+GET https://localhost:8443/backend/webapi/employees
+Authorization: Bearer eyJraWQiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJTTUFWUklTIiwidXBuIjoiU01BVlJJUyIsImlzcyI6InF1aWNrc3RhcnQtand0LWlzc3VlciIsImF1ZCI6Imp3dC1hdWRpZW5jZSIsImdyb3VwcyI6WyJIdW1hbiBSZXNvdXJjZXMiXSwianRpIjoiY2YwNWU3ODUtMjY2ZS00ZDM5LThiMTktMzg1ZTBmNmJiN2IwIiwiaWF0IjoxNjUwMDAzNjQwLCJleHAiOjE2NTAwMTgwNDB9.Bb5ZNEZ4wX1TM9qYcjV5OFVPMMH-Y1V2TK5DuuA3R4Jzb15oKHY2Glf7U6JXhxFAbxDH2PIE-Iu6J4f6oAf0x2jZW-3JHkRqsFwddv8tvjL-UlUC9X6ZFjqRApcaRSR8D9BcE2ManccbCYb8FTmeDO-wfXtFPx43f5TU2OopRmf4Rcvw1fEePeisyylcsuLNYtMT-jW6RkA3II5ClD_DRL6Rc4UxQTiZEOas8NXa7l1lbznO-cds_OheUaHXS0yF638GZMnf54y3w43zGyUGJLwpF9lFyZBmOm5_gAHsN9BCr8HjemGWxYwS91hS34bJKL5033fDv2md6LQ89t48Vg
+
+### POST a new Employee without an JWT should return a HTTP status of 403
+POST https://localhost:8443/backend/webapi/employees
+Content-Type: application/json
+
+{
+  "name": "Samwise Gamgee",
+  "role": "gardener"
+}
+
+### GET a JWT token for SMAVRIS
+POST https://localhost:8443/backend/webapi/jwt/ldapJsonLogin
+Content-Type: application/json
+
+{
+  "username": "SMAVRIS",
+  "password": "Password2015"
+}
+
+### POST a new Employee with a JWT should return HTTP status of 201
+POST https://localhost:8443/backend/webapi/employees
+Content-Type: application/json
+Authorization: Bearer eyJraWQiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJTTUFWUklTIiwidXBuIjoiU01BVlJJUyIsImlzcyI6InF1aWNrc3RhcnQtand0LWlzc3VlciIsImF1ZCI6Imp3dC1hdWRpZW5jZSIsImdyb3VwcyI6WyJIdW1hbiBSZXNvdXJjZXMiXSwianRpIjoiY2YwNWU3ODUtMjY2ZS00ZDM5LThiMTktMzg1ZTBmNmJiN2IwIiwiaWF0IjoxNjUwMDAzNjQwLCJleHAiOjE2NTAwMTgwNDB9.Bb5ZNEZ4wX1TM9qYcjV5OFVPMMH-Y1V2TK5DuuA3R4Jzb15oKHY2Glf7U6JXhxFAbxDH2PIE-Iu6J4f6oAf0x2jZW-3JHkRqsFwddv8tvjL-UlUC9X6ZFjqRApcaRSR8D9BcE2ManccbCYb8FTmeDO-wfXtFPx43f5TU2OopRmf4Rcvw1fEePeisyylcsuLNYtMT-jW6RkA3II5ClD_DRL6Rc4UxQTiZEOas8NXa7l1lbznO-cds_OheUaHXS0yF638GZMnf54y3w43zGyUGJLwpF9lFyZBmOm5_gAHsN9BCr8HjemGWxYwS91hS34bJKL5033fDv2md6LQ89t48Vg
+
+{
+  "name": "Samwise Gamgee",
+  "role": "gardener"
+}
+
+### GET a JWT token for ABULL
+POST https://localhost:8443/backend/webapi/jwt/ldapJsonLogin
+Content-Type: application/json
+
+{
+  "username": "ABULL",
+  "password": "Password2015"
+}
+
+### Update Employee with a JWT of Shipping role should return a HTTP status of 403
+PUT https://localhost:8443/backend/webapi/employees/3
+Content-Type: application/json
+Authorization: Bearer eyJraWQiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJBQlVMTCIsInVwbiI6IkFCVUxMIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIlNoaXBwaW5nIl0sImp0aSI6IjU0ZDgyYzRlLWM0ZDktNDQ4Ni1hYjUwLTE0ZjIzOTU4NWUwMyIsImlhdCI6MTY1MDAwMzc4NiwiZXhwIjoxNjUwMDE4MTg2fQ.nd83XmjuFvCowNb9NvxYsKfOpcJgv06gh5jWH9dDlLGv1E0sXb-IvDSZyduPAG37OgsayRUjl-fx8OPUhHatX7yYye6muqdVyHYxkSiWv3bQLiM4s7CasaiXTHI65DQ7S8h2Hpztbs4i6s5gXrXlB4ogMzPNK4lAqjC6YnNoCk7cCTaa7aZm6sWi-MEtOiQO_UYRhZoLQ1di3TOi5TIS-JK7TN_-vQw9l6qg-QAdbsjeoX5l057EWXi80b6621rgM19-lQtvHRjxgxhhgEJp2zHC9IClb4phGYi8cVdjwP8oZXXdV4soBg6mPuBln28g4Mj1qACtdLhcC9Gl4UK63Q
+
+{
+  "id": 3,
+  "name": "Samwise Gamgee",
+  "role": "ring bearer"
+}
+
+### Delete Employee without JWT should return 403
+DELETE https://localhost:8443/backend/webapi/employees/3
+
 ### GET a JWT token for DAUSTIN
 POST https://localhost:8443/backend/webapi/jwt/ldapJsonLogin
 Content-Type: application/json
@@ -10,28 +65,9 @@ Content-Type: application/json
   "password": "Password2015"
 }
 
-### POST a new Employee
-POST https://localhost:8443/backend/webapi/employees
-Content-Type: application/json
-Authorization: Bearer eyJraWQiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJEQVVTVElOIiwidXBuIjoiREFVU1RJTiIsImlzcyI6InF1aWNrc3RhcnQtand0LWlzc3VlciIsImF1ZCI6Imp3dC1hdWRpZW5jZSIsImdyb3VwcyI6WyJJVCJdLCJqdGkiOiI3NzJhNmUyZC1iODI4LTQ2YWItOWM4My1jOWRmZGViNTk5NjgiLCJpYXQiOjE2NDk4NzI4MDMsImV4cCI6MTY0OTg4NzIwM30.nnO28rSBttURX78FhgBhk_GzNkUF0s9Pm15wzMOBgeFnTVGPEQT3uUbNLSTs7FugH21RPZcf2vYKPH80atRVIfX2RtvAt4rbGsWDD5AF-Z4ywug_ynEhYK1NmYwWIt3cnSU394NU3yMkWODGHeERdvR9MaCZaX6LqQiEYIijXATiVXErVuaiXwCa-rW1Iu8hxO0j3sZM_-4gzA0KXAo41TAcGYMM7atCvD-fJHAke4Ig76yY2WY_z-YVcmkZ08HCVVt9bRGZpFbe1eACgO2tCBYwQiRYnbiQ-bHzqek08DNQ85e0KDzSyWqaM5z2f_t6aPLALnDhL2R_ccV6Msm_TQ
-
-{
-  "name": "Samwise Gamgee",
-  "role": "gardener"
-}
-
-### Update Employee
-PUT https://localhost:8443/backend/webapi/employees/3
-Content-Type: application/json
-
-{
-  "id": 3,
-  "name": "Samwise Gamgee",
-  "role": "ring bearer"
-}
-
-### Delete Employee
+### Delete Employee with JWT for Huamn Resource should return 204
 DELETE https://localhost:8443/backend/webapi/employees/3
+Authorization: Bearer eyJraWQiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJEQVVTVElOIiwidXBuIjoiREFVU1RJTiIsImlzcyI6InF1aWNrc3RhcnQtand0LWlzc3VlciIsImF1ZCI6Imp3dC1hdWRpZW5jZSIsImdyb3VwcyI6WyJJVCJdLCJqdGkiOiI5N2RjMzU1NC05YmVkLTQwM2ItOTNiMC03NDk0NzAyMWNhNjkiLCJpYXQiOjE2NTAwMDQ4NzksImV4cCI6MTY1MDAxOTI3OX0.nkRW27kMEG2vNz8KRojF4tX2XfsdUpwrwDW6mcJvfdZ3dCNqJgH8oEV1WJn6rGnVfS_dIkUJ8ZT4IRwqOft2RiLgnYfzhHqINQxJeMzmnh-Ay5iAUR1lVGqyyJMFqmyC0jmkJeIwCtLi64FpmFnhXqlfljw0mITZhw1vmHm2i1Lo8zbB3ehERmYGXAc5BH6v1asogtO9cCjVJv9KynZxFC_1eRto9s9yfdfq9WSIjQVk71jvJAA6yDFMx0e5ElhVUjZ260Uc5mEgY4_RMYVW4HINnjlPdfNiAOIO0XG5alzVLhxbRPXFYe7p46SH5mwpubf-18a-bwEYhvqfjLsMsA
 
 ### Now if we look again, it's gone
 GET https://localhost:8443/backend/webapi/employees/3

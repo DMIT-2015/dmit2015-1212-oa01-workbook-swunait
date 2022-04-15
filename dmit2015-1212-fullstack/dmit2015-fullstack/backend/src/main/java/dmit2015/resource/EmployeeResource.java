@@ -13,8 +13,11 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import java.net.URI;
+import java.util.Set;
+import java.util.logging.Logger;
 
 @RequestScoped
 @Path("employees")                    // All methods of this class are associated this URL path
@@ -22,11 +25,21 @@ import java.net.URI;
 @Produces(MediaType.APPLICATION_JSON)    // All methods returns data that has been converted to JSON format
 public class EmployeeResource {
 
+    private static Logger _logger = Logger.getLogger(EmployeeResource.class.getName());
     @Inject
     private EmployeeRepository _employeeRepository;
 
+    @Inject
+    private JsonWebToken _callerPrincipal;  // This will only work for a @RequestScoped resource
+
     @GET    // This method only accepts HTTP GET requests.
     public Response listEmployees() {
+        String username = _callerPrincipal.getName();
+        if (username == null) {
+            _logger.info("NO JsonWebToken included with request.");
+        } else {
+            _logger.info("JsonWebToken included with request for username " + username);
+        }
         return Response.ok(_employeeRepository.list()).build();
     }
 
@@ -38,9 +51,12 @@ public class EmployeeResource {
         return Response.ok(existingEmployee).build();
     }
 
-    @RolesAllowed({"Sales","IT"})
+    @RolesAllowed({"Human Resources"})
     @POST    // This method only accepts HTTP POST requests.
     public Response addEmployee(Employee newEmployee, @Context UriInfo uriInfo) {
+        String username = _callerPrincipal.getName();
+        String message = String.format("addEmployee() is being accessed by %s", username);
+        _logger.info(message);
 
         String errorMessage = BeanValidator.validateBean(Employee.class, newEmployee);
         if (errorMessage != null) {
@@ -73,6 +89,7 @@ public class EmployeeResource {
                 .build();
     }
 
+    @RolesAllowed({"Human Resources","IT"})
     @PUT            // This method only accepts HTTP PUT requests.
     @Path("{id}")    // This method accepts a path parameter and gives it a name of id
     public Response updateEmployee(@PathParam("id") Long id, Employee updatedEmployee) {
@@ -114,6 +131,7 @@ public class EmployeeResource {
         return Response.ok(existingEmployee).build();
     }
 
+    @RolesAllowed({"IT"})
     @DELETE            // This method only accepts HTTP DELETE requests.
     @Path("{id}")    // This method accepts a path parameter and gives it a name of id
     public Response delete(@PathParam("id") Long id) {
