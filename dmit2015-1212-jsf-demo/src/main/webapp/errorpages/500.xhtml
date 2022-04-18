@@ -1,6 +1,6 @@
 <ui:composition
         xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
         template="/WEB-INF/jsf-templates/layout.xhtml">
 
     <ui:param name="title" value="Internal Server Error"/>
@@ -10,7 +10,7 @@
         <h2>Oops!</h2>
         <p>Unfortunately, an unexpected problem has occurred during processing of your request. </p>
         <p>You can try going back to <a href="#{requestScope['jakarta.servlet.error.request_uri']}">
-            the same page</a>, or you can restart at <h:link outcome="/index">the home page</h:link>
+            the same page</a>, or you can restart at <h:outputLink outcome="/index">the home page</h:outputLink>
         </p>
     </ui:define>
 

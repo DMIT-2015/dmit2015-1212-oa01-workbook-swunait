@@ -7,7 +7,6 @@ import jakarta.faces.annotation.FacesConfig;
 import jakarta.security.enterprise.authentication.mechanism.http.CustomFormAuthenticationMechanismDefinition;
 import jakarta.security.enterprise.authentication.mechanism.http.LoginToContinue;
 import jakarta.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
-import jakarta.security.enterprise.identitystore.LdapIdentityStoreDefinition;
 
 //@BasicAuthenticationMechanismDefinition(
 //		realmName = "jaspitest"
@@ -21,15 +20,15 @@ import jakarta.security.enterprise.identitystore.LdapIdentityStoreDefinition;
 		)
 )
 
-@LdapIdentityStoreDefinition(
-		url = "ldap://192.168.101.128:389",
-		callerSearchBase = "ou=Departments,dc=dmit2015,dc=ca",
-		callerNameAttribute = "SamAccountName", // SamAccountName or UserPrincipalName
-		groupSearchBase = "ou=Departments,dc=dmit2015,dc=ca",
-		bindDn = "cn=DAUSTIN,ou=IT,ou=Departments,dc=dmit2015,dc=ca",
-		bindDnPassword = "Password2015",
-		priority = 5
-)
+//@LdapIdentityStoreDefinition(
+//		url = "ldap://192.168.101.157:389",
+//		callerSearchBase = "ou=Departments,dc=dmit2015,dc=ca",
+//		callerNameAttribute = "SamAccountName", // SamAccountName or UserPrincipalName
+//		groupSearchBase = "ou=Departments,dc=dmit2015,dc=ca",
+//		bindDn = "cn=DAUSTIN,ou=IT,ou=Departments,dc=dmit2015,dc=ca",
+//		bindDnPassword = "Password2015",
+//		priority = 5
+//)
 
 @DatabaseIdentityStoreDefinition(
 		dataSourceLookup="java:app/datasources/mssqlDS",
